@@ -10,7 +10,7 @@ interface ObservationRecord {
 }
 
 interface ExperimentState {
-  currentPhase: 'theory' | 'materials' | 'safety' | 'variables' | 'setup' | 'experiment' | 'observation' | 'analysis' | 'errors' | 'evaluation';
+  currentPhase: 'theory' | 'materials' | 'safety' | 'variables' | 'setup' | 'hypothesis' | 'experiment' | 'observation' | 'analysis' | 'errors' | 'evaluation';
   temperature: number;
   heatingActive: boolean;
   coolingActive: boolean;
@@ -22,6 +22,7 @@ interface ExperimentState {
   iceAdded: boolean;
   setupComplete: boolean;
   experimentStarted: boolean;
+  hypothesis: 'melt_then_evaporate' | 'sublimation' | 'no_change' | null;
 }
 
 interface Equipment {
@@ -46,7 +47,8 @@ const SublimationExperiment: React.FC = () => {
     flameIntensity: 50,
     iceAdded: false,
     setupComplete: false,
-    experimentStarted: false
+    experimentStarted: false,
+    hypothesis: null
   });
 
   const [equipment, setEquipment] = useState<Equipment>({
@@ -70,6 +72,7 @@ const SublimationExperiment: React.FC = () => {
     { id: 'safety', label: 'Güvenlik', icon: AlertTriangle },
     { id: 'variables', label: 'Değişkenler', icon: BarChart3 },
     { id: 'setup', label: 'Düzenek Kurma', icon: Eye },
+    { id: 'hypothesis', label: 'Hipotez', icon: BookOpen },
     { id: 'experiment', label: 'Deney Prosedürü', icon: Play },
     { id: 'observation', label: 'Gözlemler', icon: Eye },
     { id: 'analysis', label: 'Veri Analizi', icon: BarChart3 },
@@ -219,7 +222,8 @@ const SublimationExperiment: React.FC = () => {
       flameIntensity: 50,
       iceAdded: false,
       setupComplete: false,
-      experimentStarted: false
+      experimentStarted: false,
+      hypothesis: null
     });
     setEquipment({
       beaker: false,
@@ -242,7 +246,13 @@ const SublimationExperiment: React.FC = () => {
   const nextPhase = () => {
     const currentIndex = phases.findIndex(p => p.id === state.currentPhase);
     if (currentIndex < phases.length - 1) {
-      goToPhase(phases[currentIndex + 1].id);
+      // Hipotez seçimi zorunlu: hypothesis aşamasından experiment'e geçmeden önce kontrol
+      const nextId = phases[currentIndex + 1].id as string;
+      if (state.currentPhase === 'hypothesis' && nextId === 'experiment' && !state.hypothesis) {
+        alert('Lütfen hipotezinizi seçiniz.');
+        return;
+      }
+      goToPhase(nextId);
     }
   };
 
@@ -501,6 +511,47 @@ const SublimationExperiment: React.FC = () => {
               </div>
             )}
           </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Hipotez fazı
+  const HypothesisPhase = () => (
+    <div className="space-y-6">
+      <div className="bg-gradient-to-br from-indigo-50 to-purple-50 p-6 rounded-xl border">
+        <h2 className="text-2xl font-bold text-indigo-800 mb-2">Hipotez Oluşturma</h2>
+        <p className="text-gray-700 mb-4">Sizce naftalin ısıtıldığında ne olur?</p>
+
+        <div className="space-y-3">
+          {[{key:'melt_then_evaporate',label:'Önce eriyecek, sonra buharlaşacak'},
+            {key:'sublimation',label:'Doğrudan katıdan gaza geçecek (süblimleşecek)'},
+            {key:'no_change',label:'Hiçbir değişiklik olmayacak'}].map(opt => (
+            <label key={opt.key} className={`block border rounded-lg px-4 py-3 cursor-pointer ${state.hypothesis===opt.key as any ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white'}`}>
+              <input
+                type="radio"
+                name="hypothesis"
+                className="mr-2"
+                checked={state.hypothesis === (opt.key as any)}
+                onChange={() => setState(prev => ({ ...prev, hypothesis: opt.key as any }))}
+              />
+              {opt.label}
+            </label>
+          ))}
+        </div>
+
+        <div className="flex gap-2 mt-4">
+          <button
+            onClick={prevPhase}
+            className="px-4 py-2 border rounded-lg"
+          >Geri</button>
+          <button
+            onClick={() => {
+              if (!state.hypothesis) { alert('Lütfen hipotezinizi seçiniz.'); return; }
+              goToPhase('experiment');
+            }}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+          >Devam Et →</button>
         </div>
       </div>
     </div>
@@ -847,6 +898,18 @@ const SublimationExperiment: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Hipotez kontrolü */}
+        {state.hypothesis && (
+          <div className="mt-6 p-4 rounded-lg border bg-green-50 border-green-200">
+            <h3 className="font-semibold text-green-800 mb-2">Hipotez Kontrolü</h3>
+            <p className="text-green-700 text-sm">
+              {state.hypothesis === 'sublimation' 
+                ? 'Tebrikler! Hipoteziniz doğru: Naftalin doğrudan katıdan gaza geçti (süblimleşme).'
+                : 'Gözlemler, naftalinin 80°C üzerinde süblimleştiğini gösteriyor. Doğru cevap: Doğrudan katıdan gaza geçer (süblimleşme).'}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -979,6 +1042,7 @@ const SublimationExperiment: React.FC = () => {
       case 'safety': return <SafetyPhase />;
       case 'variables': return <VariablesPhase />;
       case 'setup': return <SetupPhase />;
+      case 'hypothesis': return <HypothesisPhase />;
       case 'experiment': return <ExperimentPhase />;
       case 'observation': return <ObservationPhase />;
       case 'analysis': return <AnalysisPhase />;
