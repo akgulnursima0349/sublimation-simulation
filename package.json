@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "npm run build && gh-pages -d docs"
   },
   "dependencies": {
     "lucide-react": "^0.263.1",
@@ -23,5 +23,5 @@
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
   },
-  "homepage": "https://username.github.io/sublimation-simulation"
+  "homepage": "https://akgulnursima0349.github.io/sublimation-simulation/"
 }

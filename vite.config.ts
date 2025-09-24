@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   base: '/sublimation-simulation/',
   build: {
-    outDir: 'dist',
+    outDir: 'docs',
     assetsDir: 'assets',
     sourcemap: false,
     minify: 'esbuild',
