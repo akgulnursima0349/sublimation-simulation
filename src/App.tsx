@@ -67,7 +67,7 @@ const SublimationExperiment: React.FC = () => {
 
   // Fazlar tanımlaması
   const phases = [
-    { id: 'theory', label: 'Kazanım ve Amaç', icon: BookOpen },
+    { id: 'theory', label: 'Öğrenme Çıktısı ve Amaç', icon: BookOpen },
     { id: 'materials', label: 'Malzemeler', icon: Settings },
     { id: 'safety', label: 'Güvenlik', icon: AlertTriangle },
     { id: 'variables', label: 'Değişkenler', icon: BarChart3 },
