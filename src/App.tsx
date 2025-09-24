@@ -292,7 +292,7 @@ const SublimationExperiment: React.FC = () => {
           <div className="bg-white p-4 rounded-lg shadow-sm">
             <h3 className="text-lg font-semibold text-purple-700 mb-3 flex items-center gap-2">
               <Trophy className="w-5 h-5" />
-              Kazanım
+              Öğrenme Çıktısı
             </h3>
             <p className="text-gray-700">
               Bazı katı maddelerin ısıtıldığında doğrudan gaza geçebildiğini (süblimleşme) ve 
