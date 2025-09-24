@@ -1,35 +1,38 @@
-name: Deploy to GitHub Pages
+name: Build Vite and publish docs folder
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+
+permissions:
+  contents: write
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        cache: false
-        
-    - name: Install dependencies
-      run: npm install --no-package-lock
-      
-    - name: Build
-      run: npm run build
-      
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      if: github.ref == 'refs/heads/main'
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist
-        cname: # Optional: add your custom domain here
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build (outDir=docs)
+        run: npm run build
+
+      - name: Add .nojekyll
+        run: |
+          touch docs/.nojekyll
+
+      - name: Commit built docs (optional)
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add docs/.nojekyll
+          git commit -m "chore: ensure .nojekyll in docs" || echo "No changes"
+
+  # Not deploying via Actions; configure Pages to serve from main/docs in settings
