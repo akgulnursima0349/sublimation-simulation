@@ -539,20 +539,6 @@ const SublimationExperiment: React.FC = () => {
             </label>
           ))}
         </div>
-
-        <div className="flex gap-2 mt-4">
-          <button
-            onClick={prevPhase}
-            className="px-4 py-2 border rounded-lg"
-          >Geri</button>
-          <button
-            onClick={() => {
-              if (!state.hypothesis) { alert('Lütfen hipotezinizi seçiniz.'); return; }
-              goToPhase('experiment');
-            }}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg"
-          >Devam Et →</button>
-        </div>
       </div>
     </div>
   );
