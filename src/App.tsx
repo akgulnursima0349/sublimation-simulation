@@ -301,21 +301,6 @@ const SublimationExperiment: React.FC = () => {
           </div>
         </div>
         
-        <div className="mt-6 bg-white p-4 rounded-lg shadow-sm">
-          <h3 className="text-lg font-semibold text-blue-700 mb-3">Temel Kavramlar</h3>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="bg-gradient-to-r from-orange-100 to-red-100 p-4 rounded-lg">
-              <h4 className="font-semibold text-orange-800 mb-2">Süblimleşme</h4>
-              <p className="text-orange-700">Katı → Gaz (sıvı fazını atlayarak)</p>
-              <p className="text-sm text-orange-600 mt-1">Örnek: Naftalin, kuru buz, iyot</p>
-            </div>
-            <div className="bg-gradient-to-r from-blue-100 to-cyan-100 p-4 rounded-lg">
-              <h4 className="font-semibold text-blue-800 mb-2">Kırağılaşma (Depozisyon)</h4>
-              <p className="text-blue-700">Gaz → Katı (sıvı fazını atlayarak)</p>
-              <p className="text-sm text-blue-600 mt-1">Örnek: Kristal oluşumu</p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
@@ -964,6 +949,23 @@ const SublimationExperiment: React.FC = () => {
               </div>
             </div>
           )}
+        </div>
+        
+        {/* Temel Kavramlar */}
+        <div className="mt-6 bg-white p-4 rounded-lg shadow-sm">
+          <h3 className="text-lg font-semibold text-blue-700 mb-3">Temel Kavramlar</h3>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="bg-gradient-to-r from-orange-100 to-red-100 p-4 rounded-lg">
+              <h4 className="font-semibold text-orange-800 mb-2">Süblimleşme</h4>
+              <p className="text-orange-700">Katı → Gaz (sıvı fazını atlayarak)</p>
+              <p className="text-sm text-orange-600 mt-1">Örnek: Naftalin, kuru buz, iyot</p>
+            </div>
+            <div className="bg-gradient-to-r from-blue-100 to-cyan-100 p-4 rounded-lg">
+              <h4 className="font-semibold text-blue-800 mb-2">Kırağılaşma (Depozisyon)</h4>
+              <p className="text-blue-700">Gaz → Katı (sıvı fazını atlayarak)</p>
+              <p className="text-sm text-blue-600 mt-1">Örnek: Kristal oluşumu</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
