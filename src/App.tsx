@@ -287,7 +287,7 @@ const SublimationExperiment: React.FC = () => {
   const TheoryPhase = () => (
     <div className="space-y-6">
       <div className="bg-gradient-to-br from-purple-50 to-blue-50 p-6 rounded-xl border">
-        <h2 className="text-2xl font-bold text-purple-800 mb-4">Kazanım ve Amaç</h2>
+        <h2 className="text-2xl font-bold text-purple-800 mb-4"> Öğrenme Çıktısı ve Amaç</h2>
         <div className="grid md:grid-cols-2 gap-6">
           <div className="bg-white p-4 rounded-lg shadow-sm">
             <h3 className="text-lg font-semibold text-purple-700 mb-3 flex items-center gap-2">
